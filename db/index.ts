@@ -5,7 +5,9 @@ import {
   FilterOptions,
   FrontendDocuments,
   updatedDocument,
-  documents
+  documents,
+  FileObject,
+  FileBucket
 } from "./types"
 import { GET_POCKETBASE_BASE_PATH } from "@/lib/routing";
 
@@ -116,7 +118,24 @@ export class DatabaseClient {
     if (await this.client.collection('documents').delete(recordId))
       return;
     throw Error("Delete was not successful");
+  }
 
+  async uploadFile(fileObject: FileObject){
+    await this.getUser();
+    const record = await this.client.collection('documentContentFiles').create(fileObject);
+    return record;
+  }
+
+  async searchFile(filter: string) {
+    await this.getUser();
+    const records = await this.client.collection('documentContentFiles').getFirstListItem(filter);
+    return records;
+  }
+
+  async deleteFile(identifier: FileBucket) {
+    if (await this.client.collection('documentContentFiles').delete(identifier.record))
+      return;
+    throw Error("Delete was not successful");
   }
 }
 

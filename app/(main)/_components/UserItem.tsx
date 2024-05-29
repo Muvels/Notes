@@ -34,7 +34,7 @@ const UserItem = () => {
       <DropdownMenuTrigger asChild>
         <div
           role="button"
-          className="flex items-center text-sm px-3 py-6  w-full hover:bg-primary/5"
+          className="flex items-center text-sm px-4 py-6  w-full hover:bg-primary/5"
         >
           <div className="gap-x-2 flex items-center max-w-[150px]">
             <Icon className="h-6 w-6">

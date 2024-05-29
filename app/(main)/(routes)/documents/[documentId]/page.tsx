@@ -5,14 +5,13 @@ import Cover from "@/components/Cover";
 import Toolbar from "@/components/Toolbar";
 import { Skeleton } from "@/components/ui/skeleton";
 
-import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { useOneDocumentQuery } from "@/hooks/useOneDocumentQuery";
+import { getDeletedBlocks } from "@/lib/bucket";
 import { GET_IMAGE_BASE_PATH } from "@/lib/routing";
-import { useMutation, useQuery } from "convex/react";
 
 import dynamic from "next/dynamic";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 interface Props {
   params: {
@@ -21,21 +20,29 @@ interface Props {
 }
 
 const Page = ({ params }: Props) => {
-  const Editor = useMemo(
-    () => dynamic(() => import("@/components/Editor/Editor"), { ssr: false }),
-    []
-  );
+  const [document, setDocument] = useState<any>(null as any);
+  
+  const Editor =
+    useMemo(() => dynamic(() => import("@/components/Editor/Editor"), { ssr: false }),
+    [])
 
-  const document = useOneDocumentQuery(params.documentId);
+  const  { data: documentData, isLoading } = useOneDocumentQuery(params.documentId);
 
-  const onChange = (content: string) => {
-    patchDocumentCall(params.documentId,      
-    {
+  useEffect(() => {
+    if (documentData) {
+      setDocument(documentData);
+    }
+  }, [documentData]);
+
+
+  const onChange = async (content: string) => {
+    const updatedDocument = await patchDocumentCall(params.documentId,{
       content      
     });
+    setDocument(updatedDocument); // Update local state with the new data
   };
 
-  if (!document.data || document.isLoading) {
+  if (isLoading || !document) {
     return (
       <div>
         <Cover.Skeleton />
@@ -51,16 +58,16 @@ const Page = ({ params }: Props) => {
     );
   }
 
-  if (document.data === null) {
+  if (document === null) {
     <div>Not Found</div>;
   }
-  console.log(document.data)
+  console.log(document)
   return (
     <div className="pb-40">
-      <Cover url={GET_IMAGE_BASE_PATH(document.data.collectionId, document.data.id, document.data.coverImage)} />
+      <Cover url={GET_IMAGE_BASE_PATH(document.collectionId, document.id, document.coverImage)} />
       <div className="md:max-w-3xl lg:max-w-4xl mx-auto">
-        <Toolbar initialData={document.data} />
-        <Editor onChange={onChange} initialContent={document.data.content} />
+        <Toolbar initialData={document} />
+        <Editor onChange={onChange} initialContent={document.content} documentId={document.id} />
       </div>
     </div>
   );

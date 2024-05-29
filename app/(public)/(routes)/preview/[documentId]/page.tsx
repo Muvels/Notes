@@ -8,6 +8,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { useOneDocumentQuery } from "@/hooks/useOneDocumentQuery";
+import { GET_IMAGE_BASE_PATH } from "@/lib/routing";
 import { useMutation, useQuery } from "convex/react";
 
 import dynamic from "next/dynamic";
@@ -55,7 +56,7 @@ const Page = ({ params }: Props) => {
 
   return (
     <div className="pb-40">
-      <Cover preview url={document.data.coverImage} />
+      <Cover preview url={GET_IMAGE_BASE_PATH(document.data.collectionId, document.data.id, document.data.coverImage)} />
       <div className="md:max-w-3xl lg:max-w-4xl mx-auto mt-10">
         <Toolbar preview initialData={document} />
         <Editor

@@ -4,6 +4,7 @@ import * as Yup from "yup"
 import formidable from 'formidable';
 import { FilterOptions, FrontendDocuments, documents, updatedDocument } from "@/db/types";
 import * as fs from 'fs'
+import { parseFormDataToJson } from "@/lib/bucket";
 export const config = {
   api: {
     bodyParser: false,
@@ -55,24 +56,6 @@ export async function GET(
       }, {status: 500})
     }
   }
-
-// Function to parse FormData to JSON
-function parseFormDataToJson(formData): any {
-  const state = formData[Object.getOwnPropertySymbols(formData)[0]]; // Access the Symbol('state') property
-  const jsonObject = {};
-
-  state.forEach(item => {
-    // Check if the value is a JSON string and parse it
-    try {
-        jsonObject[item.name] = JSON.parse(item.value);
-    } catch (e) {
-      // If it's not JSON, just assign the value directly
-      jsonObject[item.name] = item.value;
-    }
-  });
-
-  return jsonObject;
-}
 
   export async function PATCH(
     request: NextRequest,

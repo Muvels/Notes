@@ -1,4 +1,4 @@
-import { FilterOptions,  FrontendDocuments, updatedDocument } from "@/db/types";
+import { FileBucket, FileObject, FilterOptions,  FrontendDocuments, updatedDocument } from "@/db/types";
 
 export const postDocumentCall = async (data: {title: string, parentDocument?: string}) => {
     
@@ -78,8 +78,8 @@ export const patchDocumentCall = async (id: string, data: updatedDocument) => {
   if ('isArchived' in data) formData.append('isArchived', data.isArchived);
   if (data.parentDocument) formData.append('parentDocument', data.parentDocument);
   if (data.content) formData.append('content', data.content);
-  if (data.coverImage) formData.append('coverImage', data.coverImage);
-  if (data.icon) formData.append('icon', data.icon);
+  if ('coverImage' in data) formData.append('coverImage', data.coverImage);
+  if ('icon' in data) formData.append('icon', data.icon);
   if ('isPublished' in data) formData.append('isPublished', data.isPublished);
 
   const response = await fetch("/api/document", {
@@ -110,3 +110,37 @@ export const deleteDocumentCall = async (id: string) => {
   } 
   return true;
 }
+
+export const postFileCall = async (data: FileObject) => {
+  
+  const formData = new FormData();
+  formData.append('file', data.file);
+  formData.append('document', data.document);
+  formData.append('contentId', data.contentId);
+
+  const response = await fetch("/api/file", {
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+      body: formData // body data type must match "Content-Type" header
+    });
+
+  if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  
+  return await response.json();
+}
+
+export const deleteFileCall = async (data: FileBucket) => {
+  
+  const response = await fetch("/api/file", {
+      method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
+      body: JSON.stringify(data) // body data type must match "Content-Type" header
+    });
+
+  if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  
+  return true;
+}
+

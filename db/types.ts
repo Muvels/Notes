@@ -26,9 +26,15 @@ export interface updatedDocument {
   isArchived?: boolean,
   parentDocument?: string,
   content?: string,
-  coverImage?: File,
+  coverImage?: File | null,
   icon?: string,
   isPublished?: boolean,
+}
+
+export interface FileObject {
+   file: File,
+   document: string,
+   contentId: string
 }
 
 // Options
@@ -37,4 +43,10 @@ export interface FilterOptions {
   filter?: string,
   expand?: string,
   sort?: string,
+}
+
+export interface FileBucket {
+  bucket: string,
+  record: string,
+  identifier: string
 }

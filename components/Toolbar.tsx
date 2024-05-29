@@ -12,6 +12,9 @@ import { useCoverImage } from "@/hooks/useCoverImage";
 import { Doc } from "@/convex/_generated/dataModel";
 import { api } from "@/convex/_generated/api";
 import { useMutation } from "convex/react";
+import PocketBase from 'pocketbase';
+import cookieCutter from "cookie-cutter"
+import { GET_POCKETBASE_BASE_PATH } from "@/lib/routing";
 
 interface ToolBarProps {
   initialData: any;
@@ -66,17 +69,24 @@ const Toolbar = ({ initialData, preview }: ToolBarProps) => {
   };
 
   const onIconSelect = (icon: string) => {
-    patchDocumentCall(initialData.id,      
-      {
+    patchDocumentCall(initialData.id,{
         icon
       });
   };
 
   const onRemoveIcon = () => {
-    removeIcon({
-      id: initialData._id,
-    });
+    patchDocumentCall(initialData.id, {
+      icon: "",
+    })
   };
+
+  const pb = new PocketBase(GET_POCKETBASE_BASE_PATH());
+  //pb.authStore.loadFromCookie(cookieCutter.get("pb_auth") as string || "")
+  pb.collection('documents').subscribe(initialData.id, function (e) {
+    if (e.action === 'update') {
+      setValue(e.record.title)
+    }
+  });
 
   return (
     <div className="pl-[54px] group relative">
@@ -139,7 +149,7 @@ const Toolbar = ({ initialData, preview }: ToolBarProps) => {
           onClick={enableInput}
           className="pb-[11.5px] text-5xl font-bold break-words outline-none text-[#3F3F3F]dark:text-[#CFCFCF] w-[250px] md:w-[500px] lg:w-[600px]"
         >
-          {initialData.title}
+          {value}
         </div>
       )}
     </div>

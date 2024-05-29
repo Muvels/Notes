@@ -5,7 +5,6 @@ import { Id } from "@/convex/_generated/dataModel";
 
 import { useMutation } from "convex/react";
 import { useRouter } from "next/navigation";
-import { useUser } from "@clerk/clerk-react";
 
 import { toast } from "sonner";
 import {
@@ -25,8 +24,9 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
-import { postDocumentCall } from "@/calls/DocumentCalls";
+import { patchDocumentCall, postDocumentCall } from "@/calls/DocumentCalls";
 import React from "react";
+import { useUser } from "@/hooks/useUser";
 
 interface ItemProps {
   id?: Id<"documents">;
@@ -54,7 +54,7 @@ const Item = ({
 }: ItemProps) => {
   const ChevronIcon = expanded ? ChevronDown : ChevronRight;
 
-  const { user } = useUser();
+  const user = useUser();
 
   const router = useRouter();
 
@@ -64,7 +64,10 @@ const Item = ({
   const onArchive = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     event.stopPropagation();
     if (!id) return;
-    const promise = archive({ id });
+
+    const promise = patchDocumentCall(id, {
+      isArchived: true,
+    })
 
     toast.promise(promise, {
       loading: "Moving to trash...",
@@ -146,7 +149,7 @@ const Item = ({
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <div className="text-xs text-muted-foreground p-2">
-                Last edited by: {user?.fullName}
+                Last edited by: {user?.data?.name}
               </div>
             </DropdownMenuContent>
           </DropdownMenu>

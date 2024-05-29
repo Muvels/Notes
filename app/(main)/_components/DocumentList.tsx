@@ -2,13 +2,15 @@
 
 import { Doc, Id } from "@/convex/_generated/dataModel";
 import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import PocketBase from 'pocketbase';
+import cookieCutter from "cookie-cutter"
 import Item from "./Item";
 
 import { cn } from "@/lib/utils";
 import { FileIcon } from "lucide-react";
 import { useDocumentQuery } from "@/hooks/useDocumentQuery";
+import { GET_POCKETBASE_BASE_PATH } from "@/lib/routing";
 
 interface DocumentListProps {
   parentDocumentId?: string;
@@ -20,10 +22,11 @@ const DocumentList = ({ parentDocumentId = "", level = 0 }: DocumentListProps) =
   const params = useParams();
   const router = useRouter();
 
-  const documents = useDocumentQuery({
+  const fetchDocuments = useDocumentQuery({
     filter: `parentDocument = "${parentDocumentId}" && isArchived = false`,
   });
 
+  const [documents, setDocuments] = useState<any>({});
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
   const onExpand = (documentId: string) => {
@@ -37,8 +40,15 @@ const DocumentList = ({ parentDocumentId = "", level = 0 }: DocumentListProps) =
     router.push(`/documents/${documentId}`);
   };
 
+  useEffect(() => {
+    if (fetchDocuments.data) {
+    setDocuments(fetchDocuments.data);
+  }
+  }, [fetchDocuments]);
+
+
   //loading state
-  if (!documents.data) {
+  if (!("items" in documents)) {
     return (
       <>
         <Item.Skeleton level={level} />
@@ -52,7 +62,19 @@ const DocumentList = ({ parentDocumentId = "", level = 0 }: DocumentListProps) =
     );
   }
 
-  console.log(documents.data);
+  // TODO: Figure out recursive thing here
+  // =========================================================
+  // const pb = new PocketBase(GET_POCKETBASE_BASE_PATH());
+  // pb.authStore.loadFromCookie(cookieCutter.get("pb_auth") as string || "")
+  // pb.collection('documents').subscribe('*', function (e) {
+  //   if (e.action === 'create') {
+  //     setDocuments((prevContent: any) => {
+  //       prevContent.items.push(e.record);
+  //       return prevContent;
+  //     })
+  //   }
+  // });
+  // =========================================================
 
   return (
     <>
@@ -68,7 +90,7 @@ const DocumentList = ({ parentDocumentId = "", level = 0 }: DocumentListProps) =
       >
         {level === 0 ? "No pages" : "No pages inside"}
       </p>
-      {documents.data.items.map((document: any) => (
+      {documents.items.map((document: any) => (
         <div key={document.id}>
           <Item
             id={document.id}

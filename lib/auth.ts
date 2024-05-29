@@ -1,7 +1,6 @@
 import db from "@/db"
 import { cookies } from "next/headers";
 import cookieCutter from "cookie-cutter"
-import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 
 
 

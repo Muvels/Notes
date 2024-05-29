@@ -14,6 +14,7 @@ import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { useEdgeStore } from "@/lib/edgestore";
+import { patchDocumentCall } from "@/calls/DocumentCalls";
 
 interface CoverProps {
   url?: string;
@@ -29,15 +30,19 @@ const Cover = ({ url, preview }: CoverProps) => {
 
   const onRemove = async () => {
     //removes the file from the edge store bucket as well.
-    if (url) {
-      await edgestore.publicFiles.delete({
-        url: url,
-      });
-    }
+    // if (url) {
+    //   await edgestore.publicFiles.delete({
+    //     url: url,
+    //   });
+    // }
 
-    const promise = removeCoverImage({
-      id: params.documentId as Id<"documents">,
-    });
+    // const promise = removeCoverImage({
+    //   id: params.documentId as Id<"documents">,
+    // });
+
+    const promise = patchDocumentCall(params.documentId as Id<"documents">, {
+      coverImage: null,
+    })
 
     toast.promise(promise, {
       loading: "Removing cover image",
