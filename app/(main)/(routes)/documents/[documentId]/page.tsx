@@ -61,10 +61,12 @@ const Page = ({ params }: Props) => {
   if (document === null) {
     <div>Not Found</div>;
   }
+
+  const ImageBasePath = document.coverImage ? GET_IMAGE_BASE_PATH(document.collectionId, document.id, document.coverImage) : '/Placeholder.png' 
   console.log(document)
   return (
     <div className="pb-40">
-      <Cover url={GET_IMAGE_BASE_PATH(document.collectionId, document.id, document.coverImage)} />
+      <Cover url={ImageBasePath} />
       <div className="md:max-w-3xl lg:max-w-4xl mx-auto">
         <Toolbar initialData={document} />
         <Editor onChange={onChange} initialContent={document.content} documentId={document.id} />

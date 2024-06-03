@@ -39,6 +39,8 @@ body,
     --ring: 0 0% 3.9%;
 
     --radius: 0.5rem;
+
+    --gradient: linear-gradient(135deg, #c7c9ff, #a0a3ff);
   }
 
   .dark {
@@ -69,6 +71,12 @@ body,
     --border: 0 0% 14.9%;
     --input: 0 0% 14.9%;
     --ring: 0 0% 83.1%;
+
+    --gradient: linear-gradient(135deg, #3a3c60, #1f2040);
+  }
+
+  .gradient{
+    background: var(--gradient)
   }
 }
 

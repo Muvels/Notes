@@ -41,7 +41,7 @@ interface ItemProps {
   icon: LucideIcon;
 }
 
-const Item = ({
+const ItemBlock = ({
   id,
   documentIcon,
   active,
@@ -105,9 +105,8 @@ const Item = ({
     <div
       onClick={onClick}
       role="button"
-      style={{ paddingLeft: level ? `${level * 12 + 12}px` : "12px" }}
       className={cn(
-        "group min-h-[27px] rounded-r-lg py-3 text-sm pr-3 w-full hover:bg-primary/5 flex items-center text-muted-foreground font-medium",
+        "group min-h-[27px] bg-primary/5 opacity-70 rounded-lg py-3 text-sm  w-full flex-col flex items-center justify-center hover:bg-secondary/5 text-muted-foreground font-medium",
         active && "bg-primary/5 text-primary"
       )}
     >
@@ -123,7 +122,7 @@ const Item = ({
       {documentIcon ? (
         <div className="shrink-0 mr-2 text-[18px]">{documentIcon}</div>
       ) : (
-        <Icon className="shrink-0 h-[18px] w-[18px] mr-2 text-muted-foreground " />
+        <Icon className="shrink-0 h-[18px] w-[18px] mr-2 text-primary"/>
       )}
       <span className="truncate">{label}</span>
       {!!id && (
@@ -166,7 +165,7 @@ const Item = ({
   );
 };
 
-Item.Skeleton = function ItemSkeleton({ level }: { level?: number }) {
+ItemBlock.Skeleton = function ItemSkeleton({ level }: { level?: number }) {
   return (
     <div
       style={{
@@ -180,4 +179,4 @@ Item.Skeleton = function ItemSkeleton({ level }: { level?: number }) {
   );
 };
 
-export default Item;
+export default ItemBlock;

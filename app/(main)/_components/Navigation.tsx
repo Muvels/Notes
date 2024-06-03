@@ -5,6 +5,7 @@ import {
   MenuIcon,
   Plus,
   PlusCircle,
+  PlusIcon,
   Search,
   Settings,
   Trash,
@@ -33,6 +34,7 @@ import TrashBox from "./TrashBox";
 import Navbar from "./Navbar";
 import { toast } from "sonner";
 import { postDocumentCall } from "@/calls/DocumentCalls";
+import ItemBlock from "./ItemBlock";
 
 const Navigation = () => {
   const search = useSearch();
@@ -151,7 +153,7 @@ const Navigation = () => {
     <>
       <aside
         className={cn(
-          "group/sidebar h-full bg-secondary overflow-y-auto relative flex w-60 flex-col z-[99999]",
+          "group/sidebar h-full overflow-y-auto relative flex w-60 flex-col z-[99999]",
           isResetting && "transition-all ease-in-out duration-300",
           isMobile && "w-0 min-h-screen"
         )}
@@ -169,13 +171,19 @@ const Navigation = () => {
         </div>
         <div>
           <UserItem />
+          <div className="flex gap-3 mx-3 mb-5 ">
+            <ItemBlock onClick={handleCreate} label="" icon={PlusIcon} />
+            <ItemBlock label="" icon={Settings} onClick={settings.onOpen} />
+          </div>
+          <hr className="border-dotted border-t-4 border-primary/5"/>
           <Item label="Search" icon={Search} onClick={search.onOpen} />
-          <Item label="Settings" icon={Settings} onClick={settings.onOpen} />
-          <Item onClick={handleCreate} label="New page" icon={PlusCircle} />
+          <hr className="border-dotted border-t-4 border-primary/5"/>
         </div>
         <div className="mt-2">
           <DocumentList />
           <Item onClick={handleCreate} label="Add a Page" icon={Plus} />
+          <hr className="border-dotted border-t-4 border-primary/5"/>
+
           <Popover>
             <PopoverTrigger className="w-full mt-4 ">
               <Item label="Trash" icon={Trash} />
@@ -191,7 +199,7 @@ const Navigation = () => {
         <div
           onMouseDown={handleMouseDown}
           onClick={resetWidth}
-          className="opacity-0 group-hover/sidebar:opacity-100 transition cursor-ew-resize absolute h-full w-1 bg-primary/10 right-0 top-0"
+          className="opacity-0 group-hover/sidebar:opacity-100 transition cursor-ew-resize absolute h-full w-1 bg-secondary/20 right-0 top-0"
         />
       </aside>
       <div
@@ -203,7 +211,7 @@ const Navigation = () => {
         )}
       >
         {!!params.documentId ? (
-          <Navbar isCollapsed={isCollapsed} onResetWidth={resetWidth} />
+          <div></div>
         ) : (
           <nav className="bg-transparent px-3 py-2 w-full">
             {isCollapsed && (

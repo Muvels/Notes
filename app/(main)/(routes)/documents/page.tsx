@@ -33,21 +33,7 @@ const Page = () => {
   }
 
   return (
-    <div className="h-full flex flex-col items-center justify-center space-y-4">
-      <Image
-        src="/assets/empty.png"
-        height={300}
-        width={300}
-        alt="Empty"
-        className="dark:hidden"
-      />
-      <Image
-        src="/assets/empty-dark.png"
-        height={300}
-        width={300}
-        alt="Empty"
-        className="dark:block hidden"
-      />
+    <div className="h-full flex flex-col items-center bg-secondary justify-center space-y-4">
       <h2 className="text-lg font-medium">
         Welcome to {user?.data?.username}&apos;s Jotion
       </h2>

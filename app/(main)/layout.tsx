@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import Spinner from "@/components/Spinner";
 import Navigation from "./_components/Navigation";
 import SearchCommand from "@/components/SearchCommand";
+import Navbar from "./_components/Navbar";
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const isLoading  = false;
@@ -19,12 +20,18 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
 
 
   return (
-    <div className="h-full flex dark:bg-[#1F1F1F]">
+    <div className="h-full dark:bg-[#1F1F1F] gradient">
+      <div className="h-full relative flex overflow-hidden">
       <Navigation />
-      <main className="flex-1 h-full overflow-y-auto custom-scrollbar">
+
+      <div className="h-full w-full py-5 px-5 flex ">
+      <main style={{ boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px;"}} className="max-h-screen rounded-lg bg-white dark:bg-[#1F1F1F] flex-1 h-full overflow-y-auto custom-scrollbar">
         {/* <SearchCommand /> */}
+        <Navbar isCollapsed={false}/>
         {children}
       </main>
+      </div>
+      </div>
     </div>
   );
 };
