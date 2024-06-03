@@ -33,7 +33,7 @@ const Page = () => {
   }
 
   return (
-    <div className="h-full flex flex-col items-center bg-secondary justify-center space-y-4">
+    <div className="noisy h-full flex flex-col items-center justify-center space-y-4">
       <h2 className="text-lg font-medium">
         Welcome to {user?.data?.username}&apos;s Jotion
       </h2>
