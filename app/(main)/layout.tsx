@@ -20,7 +20,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
 
 
   return (
-    <div className="h-full dark:bg-[#1F1F1F] gradient">
+    <div className="h-full dark:bg-[#1F1F1F] gradient noise">
       <div className="h-full relative flex overflow-hidden">
       <Navigation />
 

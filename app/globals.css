@@ -80,7 +80,7 @@ body,
   }
 
   .noise{
-    background-image: url(/noise-light.png);
+    background-image: url(/noise-light.png), var(--gradient);
   }
 
   .noisy {
