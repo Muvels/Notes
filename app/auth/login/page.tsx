@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Toaster } from "@/components/ui/sonner"
 import useTokenStore from "@/store/tokenStore";
+import { getTokenCall } from "@/calls/DocumentCalls";
 
 function LoginPage() {
   const route = useRouter()
@@ -38,7 +39,8 @@ function LoginPage() {
     const data = await response.json()
     console.log(data)
     if (data?.token) {
-      setToken(data.token);
+      const token = await getTokenCall();
+      setToken(token);
       route.push("/documents")
     } else {
       console.log("error")

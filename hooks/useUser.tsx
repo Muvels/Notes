@@ -1,4 +1,3 @@
-import { getToken } from "@/lib/auth";
 import { useQuery } from "react-query"
 
 export const useUser = () => {
@@ -18,4 +17,3 @@ export const useUser = () => {
       return { data, isLoading };
 
   };
-  

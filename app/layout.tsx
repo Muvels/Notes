@@ -39,8 +39,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const {token} = useTokenStore();
-  initializeSubscriptions(token);
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={cn("dark:bg-[#1F1F1F]", inter.className)}>

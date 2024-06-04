@@ -42,6 +42,18 @@ export const getDocumentCall = async (filters: FilterOptions) => {
   return await response.json();
 }
 
+export const getTokenCall = async () => {
+  const response = await fetch("/api/auth/token", {
+      method: 'GET', // *GET, POST, PUT, DELETE, etc.
+    });
+
+  if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+  }  
+  return await response.json();
+}
+
+
 export const getOneDocumentCall = async (id: string) => {
   const response = await fetch("/api/document", {
       method: 'GET', // *GET, POST, PUT, DELETE, etc.

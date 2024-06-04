@@ -1,3 +1,4 @@
+import { initializeSubscriptions } from '@/lib/subscriptions';
 import { create } from 'zustand';
 
 type State = {
@@ -8,7 +9,10 @@ type State = {
 
 const useTokenStore = create<State>((set) => ({
   token: "",
-  setToken: (token: any) => set(token)
+  setToken: (token: any) => {
+    set(token)
+    initializeSubscriptions(token);
+  }
 }));
 
 export default useTokenStore;
