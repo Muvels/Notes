@@ -16,11 +16,11 @@ import {
   CommandList,
 } from "./ui/command";
 import { File } from "lucide-react";
+import useDocumentStore from "@/store/store";
 
 const SearchCommand = () => {
-  const { user } = useUser();
   const router = useRouter();
-  const documents = useQuery(api.documents.getSearch);
+  const { documents } = useDocumentStore();
   const [isMounted, setIsMounted] = useState(false);
 
   const toggle = useSearch((store) => store.toggle);
@@ -52,18 +52,18 @@ const SearchCommand = () => {
 
   return (
     <CommandDialog open={isOpen} onOpenChange={onClose}>
-      <CommandInput placeholder={`Search ${user?.firstName}'s Jotion...`} />
+      <CommandInput placeholder={`Search your Notes...`} />
       <CommandList className="custom-scrollbar">
         <CommandEmpty>No results found!</CommandEmpty>
         <CommandGroup
           heading={`${documents?.length ? "Documents" : "No documents"}`}
         >
-          {documents?.map((document) => (
+          {documents?.map((document: any) => (
             <CommandItem
               key={document._id}
               value={`${document.title}`} //search by document title
               title={document.title}
-              onSelect={() => onSelect(document._id)}
+              onSelect={() => onSelect(document.id)}
               className="cursor-pointer mt-1"
             >
               {document.icon ? (
