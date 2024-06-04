@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 import { FileIcon } from "lucide-react";
 import { useDocumentQuery } from "@/hooks/useDocumentQuery";
 import { GET_POCKETBASE_BASE_PATH } from "@/lib/routing";
+import useDocumentStore from "@/store/store";
 
 interface DocumentListProps {
   parentDocumentId?: string;
@@ -22,11 +23,18 @@ const DocumentList = ({ parentDocumentId = "", level = 0 }: DocumentListProps) =
   const params = useParams();
   const router = useRouter();
 
-  const fetchDocuments = useDocumentQuery({
-    filter: `parentDocument = "${parentDocumentId}" && isArchived = false`,
-  });
+  const { documents, fetchDocuments } = useDocumentStore();
 
-  const [documents, setDocuments] = useState<any>({});
+
+  useEffect(() => {
+    fetchDocuments({
+    filter: `parentDocument = "${parentDocumentId}"`,
+  })
+  console.log(documents);
+} , [fetchDocuments, documents, parentDocumentId]);
+
+
+  // const [documents, setDocuments] = useState<any>({});
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
   const onExpand = (documentId: string) => {
@@ -40,15 +48,11 @@ const DocumentList = ({ parentDocumentId = "", level = 0 }: DocumentListProps) =
     router.push(`/documents/${documentId}`);
   };
 
-  useEffect(() => {
-    if (fetchDocuments.data) {
-    setDocuments(fetchDocuments.data);
-  }
-  }, [fetchDocuments]);
+
 
 
   //loading state
-  if (!("items" in documents)) {
+  if (!(documents) || documents.length === 0) {
     return (
       <>
         <Item.Skeleton level={level} />
@@ -61,6 +65,9 @@ const DocumentList = ({ parentDocumentId = "", level = 0 }: DocumentListProps) =
       </>
     );
   }
+
+  const filteredDocuments = documents.filter((doc: any) => doc.parentDocument === parentDocumentId && doc.isArchived === false);
+
 
   // TODO: Figure out recursive thing here
   // =========================================================
@@ -90,7 +97,7 @@ const DocumentList = ({ parentDocumentId = "", level = 0 }: DocumentListProps) =
       >
         {level === 0 ? "No pages" : "No pages inside"}
       </p>
-      {documents.items.map((document: any) => (
+      {filteredDocuments.map((document: any) => (
         <div key={document.id}>
           <Item
             id={document.id}

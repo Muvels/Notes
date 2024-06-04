@@ -15,14 +15,18 @@ import ConfirmModal from "@/components/modals/ConfirmModal";
 import { useEdgeStore } from "@/lib/edgestore";
 import { useDocumentQuery } from "@/hooks/useDocumentQuery";
 import { deleteDocumentCall, patchDocumentCall } from "@/calls/DocumentCalls";
+import useDocumentStore from "@/store/store";
 
 const TrashBox = () => {
   const router = useRouter();
   const params = useParams();
 
-  const documents = useDocumentQuery({
-    filter: `isArchived = true`,
-  });  
+  const { documents } = useDocumentStore();
+
+  const archivedDocuments = documents.filter((item: any) => item.isArchived === true);
+  console.log("[DEBUG TRASHBOX DOCUMENTS]", documents)
+  console.log("[DEBUG TRASHBOX]", archivedDocuments)
+
   const restore = useMutation(api.documents.restore);
   const remove = useMutation(api.documents.remove);
 
@@ -70,7 +74,7 @@ const TrashBox = () => {
   };
 
   //loading state
-  if (documents.isLoading) {
+  if (!archivedDocuments) {
     return (
       <div className="h-full flex items-center justify-center p-4">
         <Spinner size="lg" />
@@ -78,7 +82,7 @@ const TrashBox = () => {
     );
   }
 
-  const filteredDocuments = documents?.data?.items?.filter((document: any) => {
+  const filteredDocuments = archivedDocuments.filter((document: any) => {
     return document.title.toLowerCase().includes(search.toLowerCase());
   });
 

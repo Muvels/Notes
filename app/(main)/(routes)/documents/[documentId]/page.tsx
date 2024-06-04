@@ -8,7 +8,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Id } from "@/convex/_generated/dataModel";
 import { useOneDocumentQuery } from "@/hooks/useOneDocumentQuery";
 import { getDeletedBlocks } from "@/lib/bucket";
+import { getElementInArrayById } from "@/lib/dataUtils";
 import { GET_IMAGE_BASE_PATH } from "@/lib/routing";
+import useDocumentStore from "@/store/store";
 
 import dynamic from "next/dynamic";
 import { useEffect, useMemo, useState } from "react";
@@ -20,29 +22,32 @@ interface Props {
 }
 
 const Page = ({ params }: Props) => {
-  const [document, setDocument] = useState<any>(null as any);
+  // const [document, setDocument] = useState<any>(null as any);
   
+  const { documents } = useDocumentStore();
+
+
   const Editor =
     useMemo(() => dynamic(() => import("@/components/Editor/Editor"), { ssr: false }),
     [])
 
-  const  { data: documentData, isLoading } = useOneDocumentQuery(params.documentId);
+  //const  { data: documentData, isLoading } = useOneDocumentQuery(params.documentId);
 
-  useEffect(() => {
-    if (documentData) {
-      setDocument(documentData);
-    }
-  }, [documentData]);
+  // useEffect(() => {
+  //   if (documentData) {
+  //     setDocument(documentData);
+  //   }
+  // }, [documentData]);
 
 
   const onChange = async (content: string) => {
     const updatedDocument = await patchDocumentCall(params.documentId,{
       content      
     });
-    setDocument(updatedDocument); // Update local state with the new data
+    // setDocument(updatedDocument); // Update local state with the new data
   };
 
-  if (isLoading || !document) {
+  if (!documents || documents.length === 0) {
     return (
       <div>
         <Cover.Skeleton />
@@ -57,6 +62,9 @@ const Page = ({ params }: Props) => {
       </div>
     );
   }
+
+  const document = getElementInArrayById(documents, params.documentId as string);
+
 
   if (document === null) {
     <div>Not Found</div>;

@@ -13,6 +13,8 @@ import Banner from "./Banner";
 import Menu from "./Menu";
 import Publish from "./Publish";
 import { useOneDocumentQuery } from "@/hooks/useOneDocumentQuery";
+import useDocumentStore from "@/store/store";
+import { getElementInArrayById } from "@/lib/dataUtils";
 
 interface NavbarProps {
   isCollapsed: boolean;
@@ -22,10 +24,12 @@ interface NavbarProps {
 const Navbar = ({ isCollapsed, onResetWidth }: NavbarProps) => {
   const params = useParams();
 
-  const document = useOneDocumentQuery(params.documentId as Id<"documents">);
+  const { documents } = useDocumentStore();
+
+  console.log("[DEBUG NAVBAR DOCUMENTS]", documents)
 
 
-  if (!document.data) {
+  if (!documents || documents.length === 0) {
     return (
       <nav className="bg-background sticky top-2 dark:bg-[#1f1f1f] px-3 py-2 w-full flex items-center justify-between">
         <Title.Skeleton />
@@ -35,6 +39,12 @@ const Navbar = ({ isCollapsed, onResetWidth }: NavbarProps) => {
       </nav>
     );
   }
+  console.log("[DEBUG NAVBAR documentID]",params.documentId )
+
+  const document = getElementInArrayById(documents, params.documentId as string);
+  console.log("[DEBUG NAVBAR DOCUMENT]",document)
+
+
 
   if (document.data === null) {
     return null;
@@ -53,18 +63,18 @@ const Navbar = ({ isCollapsed, onResetWidth }: NavbarProps) => {
             className="h-6 w-6 text-muted-foreground"
           />
         )}
-        {!document.data.isArchived && (
+        {!document.isArchived && (
           <div className="flex items-center justify-between w-full">
-            <Title initialData={document.data} />
+            <Title initialData={document} />
             <div className="flex items-center gap-x-2">
-              <Publish initialData={document.data} />
-              <Menu documentId={document.data.id} />
+              <Publish initialData={document} />
+              <Menu documentId={document.id} />
             </div>
           </div>
         )}
       </nav>
-      {document.data.isArchived && (
-        <Banner documentId={document.data.id} url={document.data.coverImage} />
+      {document.isArchived && (
+        <Banner documentId={document.id} url={document.coverImage} />
       )}
     </>
   );

@@ -15,6 +15,7 @@ import { useMutation } from "convex/react";
 import PocketBase from 'pocketbase';
 import cookieCutter from "cookie-cutter"
 import { GET_POCKETBASE_BASE_PATH } from "@/lib/routing";
+import useDocumentStore from "@/store/store";
 
 interface ToolBarProps {
   initialData: any;
@@ -25,10 +26,12 @@ const Toolbar = ({ initialData, preview }: ToolBarProps) => {
   const inputRef = useRef<ElementRef<"textarea">>(null);
 
   const [isEditing, setIsEditing] = useState(false);
-  const [value, setValue] = useState(initialData.title);
 
   const update = useMutation(api.documents.update);
   const removeIcon = useMutation(api.documents.removeIcon);
+
+  const { patchDocument } = useDocumentStore();
+
 
   const coverImage = useCoverImage();
 
@@ -39,7 +42,6 @@ const Toolbar = ({ initialData, preview }: ToolBarProps) => {
 
     setIsEditing(true);
     setTimeout(() => {
-      setValue(initialData.title);
       inputRef.current?.focus();
       inputRef.current?.setSelectionRange(
         inputRef.current.value.length,
@@ -53,7 +55,6 @@ const Toolbar = ({ initialData, preview }: ToolBarProps) => {
   };
 
   const onInput = (value: string) => {
-    setValue(value);
     patchDocumentCall(initialData.id,      
       {
         title: value || "Untitled",
@@ -79,14 +80,6 @@ const Toolbar = ({ initialData, preview }: ToolBarProps) => {
       icon: "",
     })
   };
-
-  const pb = new PocketBase(GET_POCKETBASE_BASE_PATH());
-  //pb.authStore.loadFromCookie(cookieCutter.get("pb_auth") as string || "")
-  pb.collection('documents').subscribe(initialData.id, function (e) {
-    if (e.action === 'update') {
-      setValue(e.record.title)
-    }
-  });
 
   return (
     <div className="pl-[54px] group relative">
@@ -140,7 +133,7 @@ const Toolbar = ({ initialData, preview }: ToolBarProps) => {
           ref={inputRef}
           onBlur={disableInput}
           onKeyDown={onKeyDown}
-          value={value}
+          value={initialData.title}
           onChange={(e) => onInput(e.target.value)}
           className="p-0 text-5xl bg-transparent font-bold break-words outline-none text-[#3F3F3F]dark:text-[#CFCFCF] resize-none cursor-end w-[250px] md:w-[500px] lg:w-[600px]"
         />
@@ -149,7 +142,7 @@ const Toolbar = ({ initialData, preview }: ToolBarProps) => {
           onClick={enableInput}
           className="pb-[11.5px] text-5xl font-bold break-words outline-none text-[#3F3F3F]dark:text-[#CFCFCF] w-[250px] md:w-[500px] lg:w-[600px]"
         >
-          {value}
+          {initialData.title}
         </div>
       )}
     </div>

@@ -7,6 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 import { api } from "@/convex/_generated/api";
 import { Doc } from "@/convex/_generated/dataModel";
+import useDocumentStore from "@/store/store";
 
 import { useMutation } from "convex/react";
 import { useRef, useState } from "react";
@@ -20,6 +21,9 @@ const Title = ({ initialData }: TitleProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState(initialData.title || "Untitled");
+
+  const { patchDocument } = useDocumentStore();
+
 
   const enableInput = () => {
     setTitle(initialData.title);

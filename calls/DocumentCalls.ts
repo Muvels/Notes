@@ -1,4 +1,5 @@
 import { FileBucket, FileObject, FilterOptions,  FrontendDocuments, updatedDocument } from "@/db/types";
+import useDocumentStore from "@/store/store";
 
 export const postDocumentCall = async (data: {title: string, parentDocument?: string}) => {
     
