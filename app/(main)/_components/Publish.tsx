@@ -1,12 +1,7 @@
 "use client";
 
-import { Doc } from "@/convex/_generated/dataModel";
-import { api } from "@/convex/_generated/api";
-import { useMutation } from "convex/react";
-
 import { useOrigin } from "@/hooks/useOrigin";
 import { useState } from "react";
-
 import {
   Popover,
   PopoverContent,
@@ -23,8 +18,6 @@ interface PublishProps {
 
 const Publish = ({ initialData }: PublishProps) => {
   const origin = useOrigin();
-
-  const update = useMutation(api.documents.update);
 
   const [copied, setCopied] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);

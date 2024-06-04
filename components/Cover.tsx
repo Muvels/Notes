@@ -6,13 +6,8 @@ import { toast } from "sonner";
 import { Button } from "./ui/button";
 import { Skeleton } from "./ui/skeleton";
 import { ImageIcon, X } from "lucide-react";
-
 import { useCoverImage } from "@/hooks/useCoverImage";
 import { useParams } from "next/navigation";
-
-import { useMutation } from "convex/react";
-import { api } from "@/convex/_generated/api";
-import { Id } from "@/convex/_generated/dataModel";
 import { patchDocumentCall } from "@/calls/DocumentCalls";
 
 interface CoverProps {
@@ -24,10 +19,9 @@ const Cover = ({ url, preview }: CoverProps) => {
   const params = useParams();
 
   const coverImage = useCoverImage();
-  const removeCoverImage = useMutation(api.documents.removeCoverImage);
 
   const onRemove = async () => {
-    const promise = patchDocumentCall(params.documentId as Id<"documents">, {
+    const promise = patchDocumentCall(params.documentId as string, {
       coverImage: null,
     })
 

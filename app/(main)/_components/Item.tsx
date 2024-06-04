@@ -1,11 +1,6 @@
 "use client";
 
-import { api } from "@/convex/_generated/api";
-import { Id } from "@/convex/_generated/dataModel";
-
-import { useMutation } from "convex/react";
 import { useRouter } from "next/navigation";
-
 import { toast } from "sonner";
 import {
   DropdownMenu,
@@ -29,7 +24,7 @@ import React from "react";
 import { useUser } from "@/hooks/useUser";
 
 interface ItemProps {
-  id?: Id<"documents">;
+  id?: string;
   documentIcon?: string;
   active?: boolean;
   expanded?: boolean;
@@ -57,9 +52,6 @@ const Item = ({
   const user = useUser();
 
   const router = useRouter();
-
-  const create = useMutation(api.documents.create);
-  const archive = useMutation(api.documents.archive);
 
   const onArchive = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     event.stopPropagation();

@@ -9,27 +9,19 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
-
-import { api } from "@/convex/_generated/api";
-import { Id } from "@/convex/_generated/dataModel";
-
-import { useMutation } from "convex/react";
 import { useRouter } from "next/navigation";
-
 import { MoreHorizontal, Trash } from "lucide-react";
 import { toast } from "sonner";
 import { useUser } from "@/hooks/useUser";
 import { patchDocumentCall } from "@/calls/DocumentCalls";
 
 interface MenuProps {
-  documentId: Id<"documents">;
+  documentId: string;
 }
 
 const Menu = ({ documentId }: MenuProps) => {
   const router = useRouter();
   const user = useUser();
-
-  const archive = useMutation(api.documents.archive);
 
   const onArchive = () => {
     const promise = patchDocumentCall(documentId, {

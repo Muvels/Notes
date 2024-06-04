@@ -4,19 +4,14 @@ import { patchDocumentCall } from "@/calls/DocumentCalls";
 import Cover from "@/components/Cover";
 import Toolbar from "@/components/Toolbar";
 import { Skeleton } from "@/components/ui/skeleton";
-
-import { api } from "@/convex/_generated/api";
-import { Id } from "@/convex/_generated/dataModel";
 import { useOneDocumentQuery } from "@/hooks/useOneDocumentQuery";
 import { GET_IMAGE_BASE_PATH } from "@/lib/routing";
-import { useMutation, useQuery } from "convex/react";
-
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
 
 interface Props {
   params: {
-    documentId: Id<"documents">;
+    documentId: string;
   };
 }
 

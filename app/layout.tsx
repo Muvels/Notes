@@ -3,16 +3,12 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-
 import { Toaster } from "sonner";
-
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
-import { ConvexClientProvider } from "@/components/providers/ConvexProvider";
 import { ModalProvider } from "@/components/providers/ModalProvider";
 import { cn } from "@/lib/utils";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { initializeSubscriptions } from "@/lib/subscriptions";
-
 const inter = Inter({ subsets: ["latin"] });
 
 // export const metadata: Metadata = {
@@ -33,10 +29,9 @@ const inter = Inter({ subsets: ["latin"] });
 //     ],
 //   },
 // };
+
 const queryClient = new QueryClient();
 initializeSubscriptions();
-
-
 
 export default function RootLayout({
   children,
@@ -47,7 +42,6 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={cn("dark:bg-[#1F1F1F]", inter.className)}>
       <QueryClientProvider client={queryClient}>
-        <ConvexClientProvider>
             <ThemeProvider
               attribute="class"
               defaultTheme="system"
@@ -59,7 +53,6 @@ export default function RootLayout({
               <ModalProvider />
               {children}
             </ThemeProvider>
-        </ConvexClientProvider>
       </QueryClientProvider>
       </body>
     </html>

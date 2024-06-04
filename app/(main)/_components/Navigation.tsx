@@ -10,18 +10,12 @@ import {
   Settings,
   Trash,
 } from "lucide-react";
-
 import { ElementRef, useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { useSearch } from "@/hooks/useSearch";
 import { useSettings } from "@/hooks/useSettings";
-
 import { cn } from "@/lib/utils";
-
-import { useMutation } from "convex/react";
-import { api } from "@/convex/_generated/api";
-
 import UserItem from "./UserItem";
 import Item from "./Item";
 import DocumentList from "./DocumentList";
@@ -32,7 +26,6 @@ import {
 } from "@/components/ui/popover";
 import TrashBox from "./TrashBox";
 import Navbar from "./Navbar";
-import { toast } from "sonner";
 import { postDocumentCall } from "@/calls/DocumentCalls";
 import ItemBlock from "./ItemBlock";
 import { Button } from "@/components/ui/button";
@@ -69,8 +62,6 @@ const Navigation = () => {
       collapse();
     }
   }, [isMobile, pathname]);
-
-  const create = useMutation(api.documents.create);
 
   const handleCreate = () => {
     const promise = postDocumentCall({ title: "Untitled" }).then((document: any) =>

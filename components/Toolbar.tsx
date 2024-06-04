@@ -5,17 +5,9 @@ import { Button } from "./ui/button";
 import ReactTextareaAutosize from "react-textarea-autosize";
 import { ImageIcon, Smile, X } from "lucide-react";
 import { patchDocumentCall } from "@/calls/DocumentCalls";
-
 import React, { ElementRef, useRef, useState } from "react";
 import { useCoverImage } from "@/hooks/useCoverImage";
 
-import { Doc } from "@/convex/_generated/dataModel";
-import { api } from "@/convex/_generated/api";
-import { useMutation } from "convex/react";
-import PocketBase from 'pocketbase';
-import cookieCutter from "cookie-cutter"
-import { GET_POCKETBASE_BASE_PATH } from "@/lib/routing";
-import useDocumentStore from "@/store/store";
 
 interface ToolBarProps {
   initialData: any;
@@ -26,12 +18,6 @@ const Toolbar = ({ initialData, preview }: ToolBarProps) => {
   const inputRef = useRef<ElementRef<"textarea">>(null);
 
   const [isEditing, setIsEditing] = useState(false);
-
-  const update = useMutation(api.documents.update);
-  const removeIcon = useMutation(api.documents.removeIcon);
-
-  const { patchDocument } = useDocumentStore();
-
 
   const coverImage = useCoverImage();
 

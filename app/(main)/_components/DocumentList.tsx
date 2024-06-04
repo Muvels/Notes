@@ -1,22 +1,16 @@
 "use client";
 
-import { Doc, Id } from "@/convex/_generated/dataModel";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import PocketBase from 'pocketbase';
-import cookieCutter from "cookie-cutter"
 import Item from "./Item";
-
 import { cn } from "@/lib/utils";
 import { FileIcon } from "lucide-react";
-import { useDocumentQuery } from "@/hooks/useDocumentQuery";
-import { GET_POCKETBASE_BASE_PATH } from "@/lib/routing";
 import useDocumentStore from "@/store/store";
 
 interface DocumentListProps {
   parentDocumentId?: string;
   level?: number;
-  data?: Doc<"documents">[];
+  data?: any[];
 }
 
 const DocumentList = ({ parentDocumentId = "", level = 0 }: DocumentListProps) => {

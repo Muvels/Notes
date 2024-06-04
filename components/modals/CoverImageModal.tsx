@@ -3,11 +3,6 @@
 import { useCoverImage } from "@/hooks/useCoverImage";
 import { useParams } from "next/navigation";
 import { useState } from "react";
-
-import { Id } from "@/convex/_generated/dataModel";
-import { api } from "@/convex/_generated/api";
-import { useMutation } from "convex/react";
-
 import { Dialog, DialogContent, DialogHeader } from "../ui/dialog";
 import { SingleImageDropzone } from "../SingleImageDropzone";
 import { toast } from "sonner";
@@ -33,7 +28,7 @@ const CoverImageModal = () => {
       setIsSubmitting(true);
       setFile(file);
 
-      const promise = patchDocumentCall(params.documentId as Id<"documents">, {
+      const promise = patchDocumentCall(params.documentId as string, {
         coverImage: file,
       });
 

@@ -1,15 +1,8 @@
 "use client";
 
-import Spinner from "@/components/Spinner";
-import { Button } from "@/components/ui/button";
 import { ServiceTitle } from "@/lib/initialize";
-import { SignInButton } from "@clerk/clerk-react";
-import { useConvexAuth } from "convex/react";
-import { ArrowRightIcon } from "lucide-react";
-import Link from "next/link";
 
 const Heading = () => {
-  const { isAuthenticated, isLoading } = useConvexAuth();
 
   return (
     <div className="max-w-3xl space-y-4 py-2">
@@ -22,23 +15,7 @@ const Heading = () => {
         <br />
         better and faster work happens.
       </h3>
-      {isLoading && (
-        <div className="w-full flex items-center justify-center">
-          <Spinner size="lg" />
-        </div>
-      )}
-      {isAuthenticated && !isLoading && (
-        <Button asChild>
-          <Link href="/documents">Enter {ServiceTitle()}}</Link>
-        </Button>
-      )}
-      {!isAuthenticated && !isLoading && (
-        <SignInButton mode="modal">
-          <Button>
-            Get {ServiceTitle()} Free <ArrowRightIcon className="h-4 w-4 ml-2" />
-          </Button>
-        </SignInButton>
-      )}
+      
     </div>
   );
 };

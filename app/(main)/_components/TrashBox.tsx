@@ -4,15 +4,9 @@ import Spinner from "@/components/Spinner";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { Search, Trash, Undo } from "lucide-react";
-
-import { api } from "@/convex/_generated/api";
-import { Doc, Id } from "@/convex/_generated/dataModel";
-
-import { useMutation, useQuery } from "convex/react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import ConfirmModal from "@/components/modals/ConfirmModal";
-import { useDocumentQuery } from "@/hooks/useDocumentQuery";
 import { deleteDocumentCall, patchDocumentCall } from "@/calls/DocumentCalls";
 import useDocumentStore from "@/store/store";
 
@@ -25,9 +19,6 @@ const TrashBox = () => {
   const archivedDocuments = documents.filter((item: any) => item.isArchived === true);
   console.log("[DEBUG TRASHBOX DOCUMENTS]", documents)
   console.log("[DEBUG TRASHBOX]", archivedDocuments)
-
-  const restore = useMutation(api.documents.restore);
-  const remove = useMutation(api.documents.remove);
 
   const [search, setSearch] = useState("");
 
