@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import React from "react"
 import Image from "next/image"
@@ -11,16 +11,18 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Toaster } from "@/components/ui/sonner"
+import useTokenStore from "@/store/tokenStore";
 
 function LoginPage() {
   const route = useRouter()
   const [email, setEmail] = React.useState<string>("")
   const [password, setPassword] = React.useState<string>("")
   const [error, setError] = React.useState("")
+  const {setToken} = useTokenStore()
+
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-
     const form = { email, password }
     const response = await fetch("/api/auth/login", {
       method: "POST",
@@ -36,6 +38,7 @@ function LoginPage() {
     const data = await response.json()
     console.log(data)
     if (data?.token) {
+      setToken(data.token);
       route.push("/documents")
     } else {
       console.log("error")

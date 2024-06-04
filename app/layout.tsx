@@ -9,7 +9,9 @@ import { ModalProvider } from "@/components/providers/ModalProvider";
 import { cn } from "@/lib/utils";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { initializeSubscriptions } from "@/lib/subscriptions";
+import useTokenStore from "@/store/tokenStore";
 const inter = Inter({ subsets: ["latin"] });
+//@ts-ignore
 
 // export const metadata: Metadata = {
 //   title: "Jotion",
@@ -31,13 +33,14 @@ const inter = Inter({ subsets: ["latin"] });
 // };
 
 const queryClient = new QueryClient();
-initializeSubscriptions();
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const {token} = useTokenStore();
+  initializeSubscriptions(token);
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={cn("dark:bg-[#1F1F1F]", inter.className)}>

@@ -1,6 +1,4 @@
-import { getDocumentCall } from "@/calls/DocumentCalls";
 import { FilterOptions } from "@/db/types";
-import { getToken } from "@/lib/auth";
 import { useQuery } from "react-query"
 
 export const useDocumentQuery = (filter: FilterOptions) => {

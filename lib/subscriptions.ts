@@ -1,16 +1,12 @@
 import useDocumentStore from '@/store/store';
 import { pbInstance } from './initialize';
-//@ts-ignore
-import cookieCutter from "cookie-cutter";
-
-
 const pb = pbInstance();
 
-export const initializeSubscriptions = () => {
-  const { documents, deleteDocument, patchDocument, createDocument } = useDocumentStore.getState();
+export const initializeSubscriptions = (token: string) => {
+  const { deleteDocument, patchDocument, createDocument } = useDocumentStore.getState();
 
   // Subscribe to changes in the 'documents' collection
-  pb.authStore.loadFromCookie(cookieCutter.get("pb_auth") as string || "")
+  pb.authStore.loadFromCookie(token);
   pb.collection('documents').subscribe('*', function (e) {
     const { action, record } = e;
     console.log(e);
@@ -25,3 +21,5 @@ export const initializeSubscriptions = () => {
     }
   });
 };
+
+// cookieCutter.get("pb_auth") as string || ""

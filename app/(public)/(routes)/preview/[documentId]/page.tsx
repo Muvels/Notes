@@ -4,7 +4,6 @@ import { patchDocumentCall } from "@/calls/DocumentCalls";
 import Cover from "@/components/Cover";
 import Toolbar from "@/components/Toolbar";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useOneDocumentQuery } from "@/hooks/useOneDocumentQuery";
 import { getElementInArrayById } from "@/lib/dataUtils";
 import { GET_IMAGE_BASE_PATH } from "@/lib/routing";
 import useDocumentStore from "@/store/store";
