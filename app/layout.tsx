@@ -12,6 +12,7 @@ import { ModalProvider } from "@/components/providers/ModalProvider";
 import { EdgeStoreProvider } from "@/lib/edgestore";
 import { cn } from "@/lib/utils";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { initializeSubscriptions } from "@/lib/subscriptions";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -33,7 +34,9 @@ const inter = Inter({ subsets: ["latin"] });
 //     ],
 //   },
 // };
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
+initializeSubscriptions();
+
 
 
 export default function RootLayout({
