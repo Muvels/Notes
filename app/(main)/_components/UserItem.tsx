@@ -19,6 +19,7 @@ import { ChevronsLeftRight } from "lucide-react";
 import Spinner from "@/components/Spinner";
 import SpinnerPage from "@/components/SpinnerPage";
 import Logout from "@/components/Logout";
+import { ServiceTitle } from "@/lib/initialize";
 
 const UserItem = () => {
   const user = useUser();
@@ -41,7 +42,7 @@ const UserItem = () => {
               <Avatar className="w-6 h-6" {...user?.data?.avatar}/>
             </Icon>
             <span className="text-start font-medium line-clamp-1">
-              {user?.data?.username}&apos;s Jotion
+              {user?.data?.username}&apos;s {ServiceTitle()}
             </span>
           </div>
           <ChevronsLeftRight className="rotate-90 ml-2 h-4 w-4 text-muted-foreground" />

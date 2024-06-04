@@ -1,6 +1,7 @@
 import { Poppins } from "next/font/google";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import { ServiceTitle } from "@/lib/initialize";
 
 const font = Poppins({
   subsets: ["latin"],
@@ -24,7 +25,7 @@ const Logo = () => {
         alt="Logo"
         className="dark:block hidden"
       />
-      <p className={cn("font-semibold", font.className)}>Jotion</p>
+      <p className={cn("font-semibold", font.className)}>{ServiceTitle()}}</p>
     </div>
   );
 };

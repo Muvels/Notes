@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { postDocumentCall } from "@/calls/DocumentCalls";
 import { documents } from "@/db/types";
 import SpinnerPage from "@/components/SpinnerPage";
+import { ServiceTitle } from "@/lib/initialize";
 
 const Page = () => {
   const user = useUser();
@@ -35,7 +36,7 @@ const Page = () => {
   return (
     <div className="noisy h-full flex flex-col items-center justify-center space-y-4">
       <h2 className="text-lg font-medium">
-        Welcome to {user?.data?.username}&apos;s Jotion
+        Welcome to {user?.data?.username}&apos;s {ServiceTitle()}
       </h2>
       <Button onClick={onCreate}>
         <PlusCircle className="h-4 w-4 mr-2" />

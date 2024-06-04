@@ -7,6 +7,7 @@ import { SignInButton, UserButton } from "@clerk/clerk-react";
 import { Button } from "@/components/ui/button";
 import Spinner from "@/components/Spinner";
 import Link from "next/link";
+import { ServiceTitle } from "@/lib/initialize";
 
 const Navbar = () => {
   const { isAuthenticated, isLoading } = useConvexAuth();
@@ -26,7 +27,7 @@ const Navbar = () => {
             </SignInButton>
             <SignInButton mode="modal">
               <Button size="sm" className="border-[0.5px] sm:block hidden">
-                Get Jotion Free
+                Get {ServiceTitle()} Free
               </Button>
             </SignInButton>
           </div>
@@ -40,7 +41,7 @@ const Navbar = () => {
               asChild
               className="hidden sm:flex sm:items-center"
             >
-              <Link href="/documents">Enter Jotion</Link>
+              <Link href="/documents">Enter {ServiceTitle()}</Link>
             </Button>
           </div>
         )}

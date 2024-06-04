@@ -5,6 +5,7 @@ import { useSettings } from "@/hooks/useSettings";
 import { Dialog, DialogContent, DialogHeader } from "../ui/dialog";
 import { Label } from "../ui/label";
 import { ModeToggle } from "../ModeToggle";
+import { ServiceTitle } from "@/lib/initialize";
 
 const SettingsModal = () => {
   const settings = useSettings();
@@ -19,7 +20,7 @@ const SettingsModal = () => {
           <div className="flex flex-col gap-y-1">
             <Label>Appearance</Label>
             <span className="text-[0.8rem] text-muted-foreground">
-              Customize how Jotion looks on your device.
+              Customize how {ServiceTitle()} looks on your device.
             </span>
           </div>
           <ModeToggle />

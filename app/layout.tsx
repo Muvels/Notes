@@ -55,7 +55,7 @@ export default function RootLayout({
               defaultTheme="system"
               enableSystem
               disableTransitionOnChange
-              storageKey="jotion-theme"
+              storageKey="note-theme"
             >
               <Toaster position="bottom-center" />
               <ModalProvider />
