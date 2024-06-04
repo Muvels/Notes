@@ -6,14 +6,12 @@ import Toolbar from "@/components/Toolbar";
 import { Skeleton } from "@/components/ui/skeleton";
 
 import { Id } from "@/convex/_generated/dataModel";
-import { useOneDocumentQuery } from "@/hooks/useOneDocumentQuery";
-import { getDeletedBlocks } from "@/lib/bucket";
 import { getElementInArrayById } from "@/lib/dataUtils";
 import { GET_IMAGE_BASE_PATH } from "@/lib/routing";
 import useDocumentStore from "@/store/store";
 
 import dynamic from "next/dynamic";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 
 interface Props {
   params: {
@@ -21,30 +19,17 @@ interface Props {
   };
 }
 
-const Page = ({ params }: Props) => {
-  // const [document, setDocument] = useState<any>(null as any);
-  
+const Page = ({ params }: Props) => {  
   const { documents } = useDocumentStore();
-
 
   const Editor =
     useMemo(() => dynamic(() => import("@/components/Editor/Editor"), { ssr: false }),
     [])
 
-  //const  { data: documentData, isLoading } = useOneDocumentQuery(params.documentId);
-
-  // useEffect(() => {
-  //   if (documentData) {
-  //     setDocument(documentData);
-  //   }
-  // }, [documentData]);
-
-
   const onChange = async (content: string) => {
-    const updatedDocument = await patchDocumentCall(params.documentId,{
+    await patchDocumentCall(params.documentId,{
       content      
     });
-    // setDocument(updatedDocument); // Update local state with the new data
   };
 
   if (!documents || documents.length === 0) {
