@@ -1,17 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import db from "@/db"
 import * as Yup from "yup"
-import formidable from 'formidable';
-import { FilterOptions, FrontendDocuments, documents, updatedDocument } from "@/db/types";
-import * as fs from 'fs'
 import { parseFormDataToJson } from "@/lib/bucket";
-export const config = {
-  api: {
-    bodyParser: false,
-    externalResolver: true,
-  }
-  };
-
 
 const filterSchema = Yup.object({
     document: Yup.string().required("We need a document ID"),
