@@ -35,6 +35,7 @@ import Navbar from "./Navbar";
 import { toast } from "sonner";
 import { postDocumentCall } from "@/calls/DocumentCalls";
 import ItemBlock from "./ItemBlock";
+import { Button } from "@/components/ui/button";
 
 const Navigation = () => {
   const search = useSearch();
@@ -49,6 +50,7 @@ const Navigation = () => {
   const isResizingRef = useRef(false);
   const sidebarRef = useRef<ElementRef<"aside">>(null);
   const navbarRef = useRef<ElementRef<"div">>(null);
+  const contentRef = useRef<ElementRef<"div">>(null);
 
   const [isResetting, setIsResetting] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(isMobile);
@@ -123,10 +125,10 @@ const Navigation = () => {
   };
 
   const resetWidth = () => {
-    if (sidebarRef.current && navbarRef.current) {
+    if (sidebarRef.current && navbarRef.current && contentRef.current) {
       setIsCollapsed(false);
       setIsResetting(true);
-
+      contentRef.current.style.setProperty("display", "block");
       sidebarRef.current.style.width = isMobile ? "100%" : "240px";
       navbarRef.current.style.setProperty(
         "width",
@@ -139,9 +141,10 @@ const Navigation = () => {
 
   //collapsing the sidebar
   const collapse = () => {
-    if (sidebarRef.current && navbarRef.current) {
+    if (sidebarRef.current && navbarRef.current && contentRef.current) {
       setIsCollapsed(true);
       setIsResetting(true);
+      contentRef.current.style.setProperty("display", "none");
       sidebarRef.current.style.width = "0";
       navbarRef.current.style.setProperty("width", "100%");
       navbarRef.current.style.setProperty("left", "0");
@@ -153,12 +156,13 @@ const Navigation = () => {
     <>
       <aside
         className={cn(
-          "group/sidebar h-full overflow-y-auto relative flex w-60 flex-col z-[99999]",
+          "pr-5 group/sidebar h-full overflow-y-auto relative flex w-60 flex-col z-[99999]",
           isResetting && "transition-all ease-in-out duration-300",
           isMobile && "w-0 min-h-screen"
         )}
         ref={sidebarRef}
       >
+        <div ref={contentRef}>
         <div
           role="button"
           onClick={collapse}
@@ -201,28 +205,26 @@ const Navigation = () => {
           onClick={resetWidth}
           className="opacity-0 group-hover/sidebar:opacity-100 transition cursor-ew-resize absolute h-full w-1 bg-secondary/20 right-0 top-0"
         />
+        </div>
       </aside>
       <div
         ref={navbarRef}
         className={cn(
-          "absolute top-0 z-[99999] left-60 w-[calc(100%-240px)]",
+          "absolute bottom-0 z-[99999] left-0 w-[calc(100%-240px)]",
           isResetting && "transition-all ease-in-out duration-300",
           isMobile && "left-0 w-full overflow-x-hidden"
         )}
       >
-        {!!params.documentId ? (
-          <div></div>
-        ) : (
-          <nav className="bg-transparent px-3 py-2 w-full">
+          <nav className="px-3 py-2 w-full">
             {isCollapsed && (
-              <MenuIcon
-                role="button"
-                className="h-6 w-6 text-muted-foreground"
-                onClick={resetWidth}
-              />
+              <Button onClick={resetWidth} className="bg-secondary hover:bg-secondary border h-14 w-14 gap-3 flex justify-center items-center rounded">
+                <MenuIcon
+                  role="button"
+                  className="h-6 w-6 text-muted-foreground"
+                /> 
+              </Button>
             )}
           </nav>
-        )}
       </div>
     </>
   );
