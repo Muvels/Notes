@@ -1,6 +1,6 @@
-// subscriptions.js
 import useDocumentStore from '@/store/store';
 import { pbInstance } from './initialize';
+//@ts-ignore
 import cookieCutter from "cookie-cutter";
 
 

@@ -40,7 +40,7 @@ const Navbar = ({ isCollapsed, onResetWidth }: NavbarProps) => {
 
 
 
-  if (document.data === null) {
+  if (!document || document.data === null) {
     return null;
   }
 

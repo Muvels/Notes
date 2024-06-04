@@ -1,14 +1,12 @@
 "use client";
 
 import Image from "next/image";
-// import { useUser } from "@clerk/clerk-react";
 import { useUser } from "@/hooks/useUser";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { postDocumentCall } from "@/calls/DocumentCalls";
-import { documents } from "@/db/types";
 import SpinnerPage from "@/components/SpinnerPage";
 import { ServiceTitle } from "@/lib/initialize";
 

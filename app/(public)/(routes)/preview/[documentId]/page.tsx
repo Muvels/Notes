@@ -5,7 +5,9 @@ import Cover from "@/components/Cover";
 import Toolbar from "@/components/Toolbar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useOneDocumentQuery } from "@/hooks/useOneDocumentQuery";
+import { getElementInArrayById } from "@/lib/dataUtils";
 import { GET_IMAGE_BASE_PATH } from "@/lib/routing";
+import useDocumentStore from "@/store/store";
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
 
@@ -21,7 +23,8 @@ const Page = ({ params }: Props) => {
     []
   );
 
-  const document = useOneDocumentQuery(params.documentId);
+  const {documents} = useDocumentStore();
+  const document = getElementInArrayById(documents, params.documentId);
 
   const onChange = (content: string) => {
     patchDocumentCall(params.documentId,{
@@ -29,7 +32,7 @@ const Page = ({ params }: Props) => {
     });
   };
 
-  if (document.isLoading) {
+  if (!document || documents.length === 0) {
     return (
       <div>
         <Cover.Skeleton />
@@ -51,13 +54,13 @@ const Page = ({ params }: Props) => {
 
   return (
     <div className="pb-40">
-      <Cover preview url={GET_IMAGE_BASE_PATH(document.data.collectionId, document.data.id, document.data.coverImage)} />
+      <Cover preview url={GET_IMAGE_BASE_PATH(document.collectionId, document.id, document.coverImage)} />
       <div className="md:max-w-3xl lg:max-w-4xl mx-auto mt-10">
         <Toolbar preview initialData={document} />
         <Editor
           editable={false}
           onChange={onChange}
-          initialContent={document.data.content}
+          initialContent={document.content}
         />
       </div>
     </div>

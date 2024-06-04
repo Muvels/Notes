@@ -1,7 +1,7 @@
 import { getDocumentCall, getOneDocumentCall, patchDocumentCall } from '@/calls/DocumentCalls';
 import { FilterOptions, updatedDocument } from '@/db/types';
 import { mergeElements, replaceElement } from '@/lib/dataUtils';
-import create from 'zustand';
+import { create } from 'zustand';
 
 type State = {
   documents: any[];

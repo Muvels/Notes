@@ -25,7 +25,7 @@ const Logo = () => {
         alt="Logo"
         className="dark:block hidden"
       />
-      <p className={cn("font-semibold", font.className)}>{ServiceTitle()}}</p>
+      <p className={cn("font-semibold", font.className)}>{ServiceTitle()}</p>
     </div>
   );
 };

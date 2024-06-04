@@ -8,7 +8,7 @@ export const useOneDocumentQuery = (id: string) => {
     const { data, isLoading } = useQuery(
         [id],
         () => {
-          return fetchDocument(id).then((response) => response)
+          return new Promise(() => {}).then((response) => response)
         },
         {
           enabled: true,
