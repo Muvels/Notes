@@ -1,38 +1,22 @@
 "use client";
 
+import { deleteDocumentCall, patchDocumentCall } from "@/calls/DocumentCalls";
 import ConfirmModal from "@/components/modals/ConfirmModal";
 import { Button } from "@/components/ui/button";
-import { api } from "@/convex/_generated/api";
-import { Id } from "@/convex/_generated/dataModel";
-import { useEdgeStore } from "@/lib/edgestore";
-
-import { useMutation } from "convex/react";
 import { useRouter } from "next/navigation";
-
 import { toast } from "sonner";
 
 interface BannerProps {
-  documentId: Id<"documents">;
+  documentId: string;
   url?: string;
 }
 
 const Banner = ({ documentId, url }: BannerProps) => {
   const router = useRouter();
 
-  const remove = useMutation(api.documents.remove);
-  const restore = useMutation(api.documents.restore);
-
-  const { edgestore } = useEdgeStore();
-
   const onRemove = async () => {
     //removes the file from the edge store bucket as well.
-    if (url) {
-      await edgestore.publicFiles.delete({
-        url: url,
-      });
-    }
-
-    const promise = remove({ id: documentId });
+    const promise = deleteDocumentCall(documentId);
 
     toast.promise(promise, {
       loading: "Deleting Note...",
@@ -44,7 +28,8 @@ const Banner = ({ documentId, url }: BannerProps) => {
   };
 
   const onRestore = () => {
-    const promise = restore({ id: documentId });
+    const promise = patchDocumentCall(documentId, { isArchived: false });
+
 
     toast.promise(promise, {
       loading: "Restoring Note...",

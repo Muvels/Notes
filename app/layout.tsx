@@ -9,7 +9,6 @@ import { Toaster } from "sonner";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { ConvexClientProvider } from "@/components/providers/ConvexProvider";
 import { ModalProvider } from "@/components/providers/ModalProvider";
-import { EdgeStoreProvider } from "@/lib/edgestore";
 import { cn } from "@/lib/utils";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { initializeSubscriptions } from "@/lib/subscriptions";
@@ -49,7 +48,6 @@ export default function RootLayout({
       <body className={cn("dark:bg-[#1F1F1F]", inter.className)}>
       <QueryClientProvider client={queryClient}>
         <ConvexClientProvider>
-          <EdgeStoreProvider>
             <ThemeProvider
               attribute="class"
               defaultTheme="system"
@@ -61,7 +59,6 @@ export default function RootLayout({
               <ModalProvider />
               {children}
             </ThemeProvider>
-          </EdgeStoreProvider>
         </ConvexClientProvider>
       </QueryClientProvider>
       </body>

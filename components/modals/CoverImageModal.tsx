@@ -1,7 +1,6 @@
 "use client";
 
 import { useCoverImage } from "@/hooks/useCoverImage";
-import { useEdgeStore } from "@/lib/edgestore";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 
@@ -21,7 +20,6 @@ const CoverImageModal = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const coverImage = useCoverImage();
-  const { edgestore } = useEdgeStore();
 
 
   const onClose = () => {
@@ -35,20 +33,9 @@ const CoverImageModal = () => {
       setIsSubmitting(true);
       setFile(file);
 
-      //smart upload/update of image -> the previous url will be replaced with the new url
-      //no new image url will be created.
-      // const res = await edgestore.publicFiles.upload({
-      //   file,
-      //   options: {
-      //     replaceTargetUrl: coverImage.url,
-      //   },
-      // });
-
       const promise = patchDocumentCall(params.documentId as Id<"documents">, {
         coverImage: file,
       });
-
-      
 
       toast.promise(promise, {
         loading: "Uploading cover image",

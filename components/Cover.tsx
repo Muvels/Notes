@@ -13,7 +13,6 @@ import { useParams } from "next/navigation";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
-import { useEdgeStore } from "@/lib/edgestore";
 import { patchDocumentCall } from "@/calls/DocumentCalls";
 
 interface CoverProps {
@@ -25,21 +24,9 @@ const Cover = ({ url, preview }: CoverProps) => {
   const params = useParams();
 
   const coverImage = useCoverImage();
-  const { edgestore } = useEdgeStore();
   const removeCoverImage = useMutation(api.documents.removeCoverImage);
 
   const onRemove = async () => {
-    //removes the file from the edge store bucket as well.
-    // if (url) {
-    //   await edgestore.publicFiles.delete({
-    //     url: url,
-    //   });
-    // }
-
-    // const promise = removeCoverImage({
-    //   id: params.documentId as Id<"documents">,
-    // });
-
     const promise = patchDocumentCall(params.documentId as Id<"documents">, {
       coverImage: null,
     })

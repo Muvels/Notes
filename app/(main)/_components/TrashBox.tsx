@@ -12,7 +12,6 @@ import { useMutation, useQuery } from "convex/react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import ConfirmModal from "@/components/modals/ConfirmModal";
-import { useEdgeStore } from "@/lib/edgestore";
 import { useDocumentQuery } from "@/hooks/useDocumentQuery";
 import { deleteDocumentCall, patchDocumentCall } from "@/calls/DocumentCalls";
 import useDocumentStore from "@/store/store";
@@ -29,8 +28,6 @@ const TrashBox = () => {
 
   const restore = useMutation(api.documents.restore);
   const remove = useMutation(api.documents.remove);
-
-  const { edgestore } = useEdgeStore();
 
   const [search, setSearch] = useState("");
 
@@ -54,12 +51,6 @@ const TrashBox = () => {
   };
 
   const onRemove = async (document: any) => {
-    //removes the file from the edge store bucket as well.
-    if (document.coverImage) {
-      await edgestore.publicFiles.delete({
-        url: document.coverImage,
-      });
-    }
 
     const promise = deleteDocumentCall(document.id);
     toast.promise(promise, {
