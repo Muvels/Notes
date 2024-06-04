@@ -3,7 +3,18 @@ import { FilterOptions, updatedDocument } from '@/db/types';
 import { mergeElements, replaceElement } from '@/lib/dataUtils';
 import create from 'zustand';
 
-const useDocumentStore = create((set) => ({
+type State = {
+  documents: any[];
+  setDocuments: (documents: any) => void;
+  fetchDocument: (id: any) => void;
+  patchDocument: (id: string, record: any) => void;
+  createDocument: (record: any) => void;
+  deleteDocument: (id: string) => void;
+  fetchDocuments: (filters: FilterOptions) => void;
+};
+
+
+const useDocumentStore = create<State>((set) => ({
   documents: [],
   setDocuments: (documents: any) => set({ documents }),
   fetchDocument: async (id: any) => {
