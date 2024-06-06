@@ -1,17 +1,15 @@
-import { initializeSubscriptions } from '@/lib/subscriptions';
+import { getTokenCall } from '@/calls/DocumentCalls';
 import { create } from 'zustand';
 
 type State = {
   token: string;
-  setToken: (token: any) => void;
+  setToken: (token: string) => void;
 };
-
 
 const useTokenStore = create<State>((set) => ({
   token: "",
-  setToken: (token: any) => {
-    set(token)
-    initializeSubscriptions(token);
+  setToken: (token: string) => {
+    set({ token });
   }
 }));
 

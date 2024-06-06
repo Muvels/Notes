@@ -7,9 +7,7 @@ import { Toaster } from "sonner";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { ModalProvider } from "@/components/providers/ModalProvider";
 import { cn } from "@/lib/utils";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { initializeSubscriptions } from "@/lib/subscriptions";
-import useTokenStore from "@/store/tokenStore";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 const inter = Inter({ subsets: ["latin"] });
 //@ts-ignore
 

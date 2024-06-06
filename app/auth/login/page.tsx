@@ -21,7 +21,6 @@ function LoginPage() {
   const [error, setError] = React.useState("")
   const {setToken} = useTokenStore()
 
-
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const form = { email, password }
