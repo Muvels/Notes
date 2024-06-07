@@ -18,16 +18,21 @@ export const getElementInArrayById = (array: any[], id: string) => {
     return array.find(element => element.id === id);
 };
 
+/**
+ * Merges a set of elements into an existing array, ensuring that elements with duplicate IDs are not added.
+ * @param {Array} array - The array to merge the new elements into.
+ * @param {Array} elements - The new elements to merge into the array.
+ * @returns {Array} - The updated array with the new elements merged in.
+ */
 export const mergeElements = (array: any[], elements: any[]) => {
-    console.log(array, elements);
-    for (const item of elements){
-        if(isElementInArrayById(array, item.id))
-            continue;
-        array.push(item);
-    }
-    console.log(array)
-    return array;
-}
+  console.log(array, elements);
+  for (const item of elements) {
+    if (isElementInArrayById(array, item.id)) continue;
+    array.push(item);
+  }
+  console.log(array);
+  return array;
+};
 
 /**
  * Replaces an element in an array by matching the id property.
