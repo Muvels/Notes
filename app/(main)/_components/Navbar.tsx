@@ -1,7 +1,5 @@
 "use client";
 
-
-import { useParams } from "next/navigation";
 import { MenuIcon } from "lucide-react";
 import Title from "./Title";
 import Banner from "./Banner";
@@ -13,10 +11,10 @@ import { getElementInArrayById } from "@/lib/dataUtils";
 interface NavbarProps {
   isCollapsed: boolean;
   onResetWidth?: () => void;
+  documentId: string;
 }
 
-const Navbar = ({ isCollapsed, onResetWidth }: NavbarProps) => {
-  const params = useParams();
+const Navbar = ({ isCollapsed, onResetWidth, documentId }: NavbarProps) => {
 
   const { documents } = useDocumentStore();
 
@@ -33,9 +31,9 @@ const Navbar = ({ isCollapsed, onResetWidth }: NavbarProps) => {
       </nav>
     );
   }
-  console.log("[DEBUG NAVBAR documentID]",params.documentId )
+  console.log("[DEBUG NAVBAR documentID]", documentId )
 
-  const document = getElementInArrayById(documents, params.documentId as string);
+  const document = getElementInArrayById(documents, documentId as string);
   console.log("[DEBUG NAVBAR DOCUMENT]",document)
 
 

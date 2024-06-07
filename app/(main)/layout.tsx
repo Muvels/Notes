@@ -14,9 +14,8 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
       <Navigation />
 
       <div className="h-full w-full py-5 pr-5 flex ">
-      <main style={{ boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px;"}} className="max-h-screen rounded-lg bg-white dark:bg-[#1F1F1F] flex-1 h-full overflow-y-auto custom-scrollbar">
+      <main className="max-h-screen flex-1 h-full">
         <SearchCommand />
-        <Navbar isCollapsed={false}/>
         {children}
       </main>
       </div>

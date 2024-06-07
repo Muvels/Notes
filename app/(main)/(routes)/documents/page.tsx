@@ -32,6 +32,7 @@ const Page = () => {
   }
 
   return (
+    <div style={{ boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px;"}} className="max-h-screen rounded-lg bg-white dark:bg-[#1F1F1F] flex-1 h-full overflow-y-auto custom-scrollbar">
     <div className="noisy h-full flex flex-col items-center justify-center space-y-4">
       <h2 className="text-lg font-medium">
         Welcome to {user?.data?.username}&apos;s {ServiceTitle()}
@@ -40,6 +41,7 @@ const Page = () => {
         <PlusCircle className="h-4 w-4 mr-2" />
         Create a Note
       </Button>
+    </div>
     </div>
   );
 };
