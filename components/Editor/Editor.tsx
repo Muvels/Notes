@@ -2,25 +2,20 @@
 
 import { Block, BlockFromConfigNoChildren, defaultBlockSpecs, BlockNoteEditor, InlineContentSchema, PartialBlock, StyleSchema } from "@blocknote/core";
 import {
-  BlockNoteView,
-  FormattingToolbarPositioner,
-  HyperlinkToolbarPositioner,
-  ImageToolbarPositioner,
-  SideMenuPositioner,
-  SlashMenuPositioner,
-  useBlockNote,
+  FormattingToolbarController,
+  SideMenuController,
+  useCreateBlockNote ,
 } from "@blocknote/react";
-import "@blocknote/react/style.css";
+import { BlockNoteView } from "@blocknote/mantine";
+import "@blocknote/mantine/style.css";
 import "./styles.css";
 import { useTheme } from "next-themes";
 import { useMediaQuery } from "usehooks-ts";
 import { postFileCall } from "@/calls/DocumentCalls";
-import { GET_IMAGE_BASE_PATH, GET_POCKETBASE_BASE_PATH } from "@/lib/routing";
+import { GET_IMAGE_BASE_PATH } from "@/lib/routing";
 
-import { useCallback, useRef } from "react";
 import { getDeletedBlocks } from "@/lib/bucket";
-import PocketBase from 'pocketbase';
-import React from "react";
+import React, { useCallback } from "react";
 import { handleDeletedNotes } from "./utils";
 
 interface EditorProps {
@@ -34,7 +29,6 @@ const Editor = ({ onChange, initialContent, editable, documentId }: EditorProps)
   const { resolvedTheme } = useTheme();
   const isSmallScreen = useMediaQuery("(max-width: 800px)");
   const [actContent, setActContent] = React.useState<any>(initialContent)
-  const editorRef = useRef<BlockNoteEditor | null>(null);
 
 
 
@@ -56,12 +50,12 @@ const Editor = ({ onChange, initialContent, editable, documentId }: EditorProps)
     //console.log("Updated actContent:", actContent);
   }, [actContent]);
 
-  const onEditorContentChange = useCallback((editor: any) => {
+  const onEditorContentChange = useCallback(() => {
     setActContent((prevContent: any[]) => {
-      const blocks = editor.topLevelBlocks;
+      const blocks = editor.document;
       if (prevContent) {
         console.log(prevContent)
-        const deletedNotes = getDeletedBlocks(prevContent, editor.topLevelBlocks);
+        const deletedNotes = getDeletedBlocks(prevContent, editor.document);
         handleDeletedNotes(deletedNotes);
       }
       onChange(JSON.stringify(blocks, null, 2));
@@ -71,45 +65,32 @@ const Editor = ({ onChange, initialContent, editable, documentId }: EditorProps)
   }, [onChange]);
 
 
-  const editor: BlockNoteEditor = useBlockNote({
-    editable,
+  const editor: BlockNoteEditor = useCreateBlockNote({
     initialContent: initialContent //@ts-ignore
       ? ((initialContent) as PartialBlock[])
       : undefined,
-    onEditorContentChange: onEditorContentChange,
     uploadFile: handleUpload,
-    blockSpecs: {
-      ...defaultBlocks
-    },
-    _tiptapOptions: {},
-    
   });
-
-  // if (documentId)
-  //   new PocketBase(GET_POCKETBASE_BASE_PATH()).collection('documents').subscribe(documentId, function (e) {
-  //     console.log(e)
-  //     // setActContent(e.record.content);
-  // }, { /* other options like expand, custom headers, etc. */ });
-
-
 
   return (
     <div className="pt-2">
       <BlockNoteView
+        editable={editable}
+        onChange={onEditorContentChange}
         editor={editor}
         theme={resolvedTheme === "dark" ? "dark" : "light"}
       >
         {isSmallScreen ? (
           <>
-            <SlashMenuPositioner editor={editor} />
+            {/* <SlashMenuPositioner /> */}
           </>
         ) : (
           <>
-            <FormattingToolbarPositioner editor={editor} />
-            <HyperlinkToolbarPositioner editor={editor} />
-            <SlashMenuPositioner editor={editor} />
-            <SideMenuPositioner editor={editor} />
-            <ImageToolbarPositioner editor={editor} />
+            {/* <FormattingToolbarController /> */}
+            {/* <HyperlinkToolbarPositioner editor={editor} /> */}
+            {/* <SlashMenuPositioner editor={editor} /> */}
+            {/* <SideMenuController /> */}
+            {/* <ImageToolbarPositioner editor={editor} /> */}
           </>
         )}
       </BlockNoteView>
