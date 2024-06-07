@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearch } from "@/hooks/useSearch";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
   CommandDialog,
@@ -11,11 +11,13 @@ import {
   CommandItem,
   CommandList,
 } from "./ui/command";
-import { File } from "lucide-react";
+import { Columns2, File } from "lucide-react";
 import useDocumentStore from "@/store/store";
+import { Button } from "./ui/button";
 
 const SearchCommand = () => {
   const router = useRouter();
+  const params = useParams();
   const { documents } = useDocumentStore();
   const [isMounted, setIsMounted] = useState(false);
 
@@ -44,6 +46,11 @@ const SearchCommand = () => {
     onClose();
   };
 
+  const onSplitView = (id: string) => {
+    router.push(`/documents/${params.documentId}/${id}`);
+    onClose();
+  };
+
   if (!isMounted) return null;
 
   return (
@@ -55,12 +62,13 @@ const SearchCommand = () => {
           heading={`${documents?.length ? "Documents" : "No documents"}`}
         >
           {documents?.map((document: any) => (
+            <div className="flex justify-center items-center hover:bg-secondary" key={document.id}>
             <CommandItem
               key={document._id}
               value={`${document.title}`} //search by document title
               title={document.title}
               onSelect={() => onSelect(document.id)}
-              className="cursor-pointer mt-1"
+              className="cursor-pointer mt-1 w-full hover:bg-none"
             >
               {document.icon ? (
                 <p className="mr-2 text-[18px]">{document.icon}</p>
@@ -68,7 +76,15 @@ const SearchCommand = () => {
                 <File className="mr-2 h-4 w-4" />
               )}
               <span>{document.title}</span>
-            </CommandItem>
+              </CommandItem>
+              <Button 
+                onClick={() => onSplitView(document.id)}
+                className="z-50 bg-transparent hover:text-blue-500" 
+                variant={"link"}
+              >
+                <Columns2/>
+              </Button>
+            </div>
           ))}
         </CommandGroup>
       </CommandList>

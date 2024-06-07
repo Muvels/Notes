@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import {
   DropdownMenu,
@@ -16,6 +16,7 @@ import {
   MoreHorizontal,
   Plus,
   Trash,
+  Columns2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -51,6 +52,7 @@ const Item = ({
 
   const user = useUser();
 
+  const params = useParams();
   const router = useRouter();
 
   const onArchive = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -66,6 +68,13 @@ const Item = ({
       success: "Note moved to trash.",
       error: "Failed to archive note!",
     });
+  };
+
+  const onSplitView = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    event.stopPropagation();
+    if (!id) return;
+
+    router.push(`/documents/${params.documentId}/${id}`);
   };
 
   const handleExpand = (
@@ -135,6 +144,15 @@ const Item = ({
               side="right"
               forceMount
             >
+              {!!params.documentId && (
+              <>
+                <DropdownMenuItem onClick={onSplitView}>
+                  <Columns2 className="h-4 w-4 mr-2" />
+                  Split View
+                </DropdownMenuItem>
+                <hr/>
+              </>
+              )}
               <DropdownMenuItem onClick={onArchive}>
                 <Trash className="h-4 w-4 mr-2" />
                 Move to trash
