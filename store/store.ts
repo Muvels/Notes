@@ -31,7 +31,7 @@ const useDocumentStore = create<State>((set) => ({
   },
   createDocument: async (record: any) => {
     set((state: any) => ({
-        documents: [...state.documents, record],
+        documents: mergeElements(state.documents, [record]),
     }));
   },
   deleteDocument: async (id: string) => {
