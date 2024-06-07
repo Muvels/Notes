@@ -6,4 +6,4 @@ export interface BlockNote {
     children: BlockNote[]
 }
 
-export const UploadTypes = ["image", "database", "video", "audio"];
+export const UploadTypes = ["image", "database", "video", "audio", "file"];
